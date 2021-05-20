@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
 	  <RootNamespace>DotnetToolset.Patterns</RootNamespace>
-	  <Version>0.2.0</Version>
+	  <Version>0.3.0</Version>
 	  <Authors>Ahead Labs, S.L.</Authors>
 	  <Description>Opinionated miscellaneous patterns for multilayered .NET projects.</Description>
 	  <Copyright>Ahead Labs, S.L.</Copyright>
