@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.6.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetToolset.Patterns", "DotnetToolset.Patterns\DotnetToolset.Patterns.csproj", "{75AD6847-64B0-4AD0-A889-2B6CAD45EBAB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9534C166-F167-4FDC-B74C-5A35D0EF0C0F}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75AD6847-64B0-4AD0-A889-2B6CAD45EBAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75AD6847-64B0-4AD0-A889-2B6CAD45EBAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75AD6847-64B0-4AD0-A889-2B6CAD45EBAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75AD6847-64B0-4AD0-A889-2B6CAD45EBAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE166C86-086C-426C-AEF6-97FCAE409047}
+	EndGlobalSection
+EndGlobal
