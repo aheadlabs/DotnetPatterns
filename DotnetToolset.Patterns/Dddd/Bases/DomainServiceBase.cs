@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace DotnetToolset.Patterns.Dddd
+namespace DotnetToolset.Patterns.Dddd.Bases
 {
 	/// <summary>
 	/// This is the supertype for all services in this domain layer (layer supertype pattern).
@@ -100,14 +100,14 @@ namespace DotnetToolset.Patterns.Dddd
 		/// Deletes the entity from the persistence infrastructure layer
 		/// </summary>
 		/// <param name="id">Id of the entity to be deleted</param>
-		/// <returns>True if deleted correctly</returns>
-		public virtual int? Delete(int id)
+		/// <returns>Id of the deleted item, 0 otherwise</returns>
+		public virtual int Delete(int id)
 		{
 			try
 			{
 				// delete the entity matching from id in the database
 				Tuple<bool, TModelEntity> result = _crudService.Delete(new object[] { id });
-				return result.Item1 ? id : null;
+				return result.Item1 ? id : 0;
 			}
 			catch (Exception ex)
 			{
