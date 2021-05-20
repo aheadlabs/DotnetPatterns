@@ -1,0 +1,68 @@
+# Pipeline /.devops/pipeline-build-dotnettoolset.patterns-ci.yml
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+      - dev
+      - feature/*
+      - hotfix/*
+      - release/*
+pr:
+  branches:
+    include:
+      - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+name: CI-$(date:yyyyMMdd)$(rev:.r)
+jobs:
+  - job: Main
+    displayName: Main job
+    steps:
+      - task: UsePythonVersion@0
+        displayName: Set Python version
+        inputs:
+          versionSpec: '>=3.9'
+          addToPath: true
+          architecture: 'x64'
+      - task: CmdLine@2
+        displayName: Install pip packages
+        inputs:
+          script: |
+            python3 -m pip install devops-toolset
+            python3 -m pip list
+      - task: PythonScript@0
+        displayName: Get project version from .csproj
+        inputs:
+          scriptSource: inline
+          script: |
+            import devops_toolset.configure as configure
+            import devops_toolset.project_types.dotnet.utils as utils
+            configure.main("azuredevops", "en")
+            utils.get_csproj_project_version("$(System.DefaultWorkingDirectory)/DotnetToolset.Patterns/DotnetToolset.Patterns.csproj")
+      - task: UseDotNet@2
+        displayName: Set .NET SDK version
+        inputs:
+          packageType: 'sdk'
+          version: '5.x'
+      - task: DotNetCoreCLI@2
+        displayName: Build NuGet package
+        inputs:
+          command: 'build'
+          arguments: '-c Release -o $(System.DefaultWorkingDirectory)/.dist'
+      - task: DotNetCoreCLI@2
+        displayName: Pass unit tests
+        inputs:
+          command: 'test'
+          projects: '**/*[Tt]ests/*.csproj'
+          arguments: '-c Release --no-restore'
+          testRunTitle: 'Pass unit tests'
+      - task: PublishBuildArtifacts@1
+        displayName: Publish NuGet package as an artifact
+        inputs:
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/.dist'
+          ArtifactName: 'nuget-package'
+          publishLocation: 'Container'
