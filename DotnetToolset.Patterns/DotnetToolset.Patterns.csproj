@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <PackageReference Include="DotnetRepository" Version="0.3.2" />
+	  <PackageReference Include="DotnetRepository" Version="0.3.3" />
   </ItemGroup>
 
   <ItemGroup>
