@@ -302,7 +302,7 @@ public class ApplicationServiceBaseTests
 		}
 
 		[Fact]
-		public void Delete_BareDto_ReturnsNullIfBaseDeleteDoesNotDeleteAnyEntity()
+		public void Delete_BareDto_ReturnsZeroIfBaseDeleteDoesNotDeleteAnyEntity()
 		{
 			// arrange
 			const int entityId = 1;
@@ -312,7 +312,7 @@ public class ApplicationServiceBaseTests
 			int? result = _sut.Object.Delete(2);
 
 			// assert
-			Assert.Null(result);
+			Assert.Equal(0, result);
 		}
 
 		#endregion Delete(int id)
