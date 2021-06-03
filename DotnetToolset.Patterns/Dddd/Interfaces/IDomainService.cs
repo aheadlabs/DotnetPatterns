@@ -34,7 +34,7 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
 		/// </summary>
 		/// <param name="id">Id of the entity to be deleted</param>
 		/// <returns>Id of the deleted entity</returns>
-		int? Delete(int id);
+		int Delete(int id);
 
 		/// <summary>
 		/// Deletes a list of entities from the persistence infrastructure layer

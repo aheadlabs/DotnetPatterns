@@ -105,7 +105,7 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 		}
 
 		///<inheritdoc cref="IApplicationService{TModelEntity,TBareDto,TUiDto}"/>
-		public virtual int? Delete(int id)
+		public virtual int Delete(int id)
 		{
 			try
 			{
