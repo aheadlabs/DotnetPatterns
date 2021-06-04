@@ -28,7 +28,7 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
         /// </summary>
         /// <param name="id">Id of the entity DTO to be deleted</param>
         /// <returns>Id of the entity deleted</returns>
-        int? Delete(int id);
+        int Delete(int id);
 
         /// <summary>
         /// Deletes the DTOs from the persistence infrastructure layer
