@@ -1,6 +1,7 @@
 ﻿using DotnetRepository.Services;
 using DotnetToolset.Adapters;
 using DotnetToolset.ExtensionMethods;
+using DotnetToolset.Patterns.Dddd.Interfaces;
 using DotnetToolset.Patterns.Resources;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,18 +18,18 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 	/// </summary>
 	public abstract class DomainServiceBase<TDomainService, TDomainEntity, TModelEntity, TContext>
 
-		where TDomainService : class
-		where TDomainEntity : class
+		where TDomainService : class, IDomainService<TDomainEntity, TModelEntity>
+		where TDomainEntity : class, IDomainEntity
 		where TModelEntity : class
 		where TContext : DbContext
 
 
 	{
-		protected readonly ITypeAdapter<TDomainEntity, TModelEntity> DomainToModelAdapter;
-        protected readonly ITypeAdapter<TModelEntity, TDomainEntity> ModelToDomainAdapter;
-        protected readonly ICrudService<TDomainService, TModelEntity, TContext> CrudService;
-        protected readonly ILogger<TDomainService> Logger;
-        protected readonly TContext Context;
+		private readonly ITypeAdapter<TDomainEntity, TModelEntity> _domainToModelAdapter;
+		private readonly ITypeAdapter<TModelEntity, TDomainEntity> _modelToDomainAdapter;
+		private readonly ICrudService<TDomainService, TModelEntity, TContext> _crudService;
+		private readonly ILogger<TDomainService> _logger;
+		private readonly TContext _context;
 
         protected DomainServiceBase(ILogger<TDomainService> logger,
 			ICrudService<TDomainService, TModelEntity, TContext> crudService,
@@ -36,11 +37,11 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 			ITypeAdapter<TModelEntity, TDomainEntity> modelToDomainAdapter,
 			TContext context)
 		{
-			Logger = logger;
-			CrudService = crudService;
-			DomainToModelAdapter = domainToModelAdapter;
-			ModelToDomainAdapter = modelToDomainAdapter;
-			Context = context;
+			_logger = logger;
+			_crudService = crudService;
+			_domainToModelAdapter = domainToModelAdapter;
+			_modelToDomainAdapter = modelToDomainAdapter;
+			_context = context;
 		}
 
 		#region CRUD
@@ -54,16 +55,22 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 		{
 			try
 			{
+				// Validate entity
+				if (!entity.IsValid(_logger))
+				{
+					throw new ArgumentException(Literals.p_EntityNotValid.ParseParameter(entity.GetType().ToString()), nameof(entity));
+				}
+
 				// Adapt domain entity to model entity
-				TModelEntity modelEntity = DomainToModelAdapter.Adapt(entity);
+				TModelEntity modelEntity = _domainToModelAdapter.Adapt(entity);
 
 				// add to database
-				Tuple<bool, TModelEntity> result = CrudService.Add(modelEntity);
-				return Tuple.Create(result.Item1, ModelToDomainAdapter.Adapt(result.Item2));
+				Tuple<bool, TModelEntity> result = _crudService.Add(modelEntity);
+				return Tuple.Create(result.Item1, _modelToDomainAdapter.Adapt(result.Item2));
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError(ex, Literals.p_ErrorAddingDtoOfTypeX.ParseParameter(typeof(TDomainEntity).Name));
+				_logger.LogError(ex, Literals.p_ErrorAddingDtoOfTypeX.ParseParameter(typeof(TDomainEntity).Name));
 				throw;
 			}
 		}
@@ -89,7 +96,7 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError(ex, Literals.p_ErrorAddingDtoListOfTypeX.ParseParameter(typeof(TDomainEntity).Name));
+				_logger.LogError(ex, Literals.p_ErrorAddingDtoListOfTypeX.ParseParameter(typeof(TDomainEntity).Name));
 				throw;
 			}
 		}
@@ -104,12 +111,12 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 			try
 			{
 				// delete the entity matching from id in the database
-				Tuple<bool, TModelEntity> result = CrudService.Delete(new object[] { id });
+				Tuple<bool, TModelEntity> result = _crudService.Delete(new object[] { id });
 				return result.Item1 ? id : 0;
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError(ex, Literals.p_ErrorDeletingDtoOfTypeX.ParseParameter(typeof(TDomainEntity).Name));
+				_logger.LogError(ex, Literals.p_ErrorDeletingDtoOfTypeX.ParseParameter(typeof(TDomainEntity).Name));
 				throw;
 			}
 		}
@@ -128,16 +135,16 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 				// delete the entity matching from id in the database
 				foreach (TDomainEntity entity in entities)
 				{
-					TModelEntity modelEntity = DomainToModelAdapter.Adapt(entity);
-					Tuple<bool, TModelEntity> result = CrudService.Delete(modelEntity);
-					results.Add(Tuple.Create(result.Item1, ModelToDomainAdapter.Adapt(result.Item2)));
+					TModelEntity modelEntity = _domainToModelAdapter.Adapt(entity);
+					Tuple<bool, TModelEntity> result = _crudService.Delete(modelEntity);
+					results.Add(Tuple.Create(result.Item1, _modelToDomainAdapter.Adapt(result.Item2)));
 				}
 
 				return results;
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError(ex, Literals.p_ErrorDeletingDtoOfTypeX.ParseParameter(typeof(TDomainEntity).Name));
+				_logger.LogError(ex, Literals.p_ErrorDeletingDtoOfTypeX.ParseParameter(typeof(TDomainEntity).Name));
 				throw;
 			}
 		}
@@ -152,16 +159,22 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 		{
 			try
 			{
+				// Validate entity
+				if (!entity.IsValid(_logger))
+				{
+					throw new ArgumentException(Literals.p_EntityNotValid.ParseParameter(entity.GetType().ToString()), nameof(entity));
+				}
+
 				// Adapt domain entity to model entity
-				TModelEntity modelEntity = DomainToModelAdapter.Adapt(entity);
+				TModelEntity modelEntity = _domainToModelAdapter.Adapt(entity);
 
 				// edit in the database
-				Tuple<bool, TModelEntity> result = CrudService.Edit(id, modelEntity);
-				return Tuple.Create(result.Item1, ModelToDomainAdapter.Adapt(result.Item2));
+				Tuple<bool, TModelEntity> result = _crudService.Edit(id, modelEntity);
+				return Tuple.Create(result.Item1, _modelToDomainAdapter.Adapt(result.Item2));
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError(ex, Literals.p_ErrorEditingDtoOfTypeX.ParseParameter(typeof(TDomainEntity).Name));
+				_logger.LogError(ex, Literals.p_ErrorEditingDtoOfTypeX.ParseParameter(typeof(TDomainEntity).Name));
 				throw;
 			}
 		}
@@ -178,16 +191,16 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 			{
 
 				// get data
-				IList<TModelEntity> dbEntities = CrudService.Get(predicate, navigationProperties);
+				IList<TModelEntity> dbEntities = _crudService.Get(predicate, navigationProperties);
 
 				// Adapt the results to domain entities
-				IEnumerable<TDomainEntity> domainEntities = ModelToDomainAdapter.Adapt(dbEntities);
+				IEnumerable<TDomainEntity> domainEntities = _modelToDomainAdapter.Adapt(dbEntities);
 
 				return domainEntities;
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError(ex, Literals.p_ErrorGettingDtoOfTypeX.ParseParameter(typeof(TDomainEntity).Name));
+				_logger.LogError(ex, Literals.p_ErrorGettingDtoOfTypeX.ParseParameter(typeof(TDomainEntity).Name));
 				throw;
 			}
 		}
@@ -202,15 +215,21 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 		/// <param name="entities">Entities to be added to the join table</param>
 		/// <returns>>True if operation persisted correctly</returns>
 		public bool AddRelated<TRelatedEntity>(IList<TRelatedEntity> entities)
-			where TRelatedEntity : class
+			where TRelatedEntity : class, IDomainEntity
 		{
 
 			IList<Tuple<bool, TRelatedEntity>> results = new List<Tuple<bool, TRelatedEntity>>();
 
-			ICrudService<TDomainService, TRelatedEntity, TContext> crudServiceRelated = new CrudService<TDomainService, TRelatedEntity, TContext>(Context, Logger);
+			ICrudService<TDomainService, TRelatedEntity, TContext> crudServiceRelated = new CrudService<TDomainService, TRelatedEntity, TContext>(_context, _logger);
 
 			foreach (TRelatedEntity entity in entities)
 			{
+				// Validate entity
+				if (!entity.IsValid(_logger))
+				{
+					throw new ArgumentException(Literals.p_EntityNotValid.ParseParameter(entity.GetType().ToString()), nameof(entities));
+				}
+
 				Tuple<bool, TRelatedEntity> result = crudServiceRelated.Add(entity);
 				results.Add(result);
 			}
@@ -230,7 +249,7 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 
 			IList<Tuple<bool, TRelatedEntity>> results = new List<Tuple<bool, TRelatedEntity>>();
 
-			ICrudService<TDomainService, TRelatedEntity, TContext> crudServiceRelated = new CrudService<TDomainService, TRelatedEntity, TContext>(Context, Logger);
+			ICrudService<TDomainService, TRelatedEntity, TContext> crudServiceRelated = new CrudService<TDomainService, TRelatedEntity, TContext>(_context, _logger);
 
 			foreach (TRelatedEntity entity in entities)
 			{

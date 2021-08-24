@@ -61,6 +61,15 @@ namespace DotnetToolset.Patterns.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The entity provided did not validate: {0}.
+        /// </summary>
+        internal static string p_EntityNotValid {
+            get {
+                return ResourceManager.GetString("p_EntityNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error has ocurred when adding a DTO list of type {0}.
         /// </summary>
         internal static string p_ErrorAddingDtoListOfTypeX {
@@ -102,6 +111,78 @@ namespace DotnetToolset.Patterns.Resources {
         internal static string p_ErrorGettingDtoOfTypeX {
             get {
                 return ResourceManager.GetString("p_ErrorGettingDtoOfTypeX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Range rule did not pass since its value is not ant integer.
+        /// </summary>
+        internal static string p_RuleIsIntegerNotPassed {
+            get {
+                return ResourceManager.GetString("p_RuleIsIntegerNotPassed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not null rule did not pass since its value is null.
+        /// </summary>
+        internal static string p_RuleIsNotNullNotPassed {
+            get {
+                return ResourceManager.GetString("p_RuleIsNotNullNotPassed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Length rule did not pass for data &quot;{0}&quot; since its value is longer than {1}.
+        /// </summary>
+        internal static string p_RuleLengthNotPassed {
+            get {
+                return ResourceManager.GetString("p_RuleLengthNotPassed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max rule did not pass for data &quot;{0}&quot; since its value is not lower or equal to {1}.
+        /// </summary>
+        internal static string p_RuleMaxNotPassed {
+            get {
+                return ResourceManager.GetString("p_RuleMaxNotPassed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min rule did not pass for data &quot;{0}&quot; since its value is not greater or equal to {1}.
+        /// </summary>
+        internal static string p_RuleMinNotPassed {
+            get {
+                return ResourceManager.GetString("p_RuleMinNotPassed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Range rule did not pass for data &quot;{0}&quot; since its value is not between {1} and {2}.
+        /// </summary>
+        internal static string p_RuleRangeNotPassed {
+            get {
+                return ResourceManager.GetString("p_RuleRangeNotPassed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RegEx rule did not pass for data &quot;{0}&quot; since does not match with the expression {1}.
+        /// </summary>
+        internal static string p_RuleRegexNotPassed {
+            get {
+                return ResourceManager.GetString("p_RuleRegexNotPassed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RegEx rule was skkipped for data &quot;{0}&quot; as requested.
+        /// </summary>
+        internal static string p_RuleRegexSkipped {
+            get {
+                return ResourceManager.GetString("p_RuleRegexSkipped", resourceCulture);
             }
         }
     }
