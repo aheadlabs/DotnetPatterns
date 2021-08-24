@@ -26,20 +26,20 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 		where TBareDto : class, IDto
 		where TUiDto : class, IDto
 	{
-		protected readonly ITypeAdapter<TBareDto, TDomainEntity> BareDtoToDomainAdapter;
-		protected readonly IDomainService<TDomainEntity, TModelEntity> DomainService;
-		protected readonly ITypeAdapter<TDomainEntity, TUiDto> DomainToUiDtoAdapter;
-		protected readonly ILogger<TApplicationService> Logger;
+		private readonly ITypeAdapter<TBareDto, TDomainEntity> _bareDtoToDomainAdapter;
+		private readonly IDomainService<TDomainEntity, TModelEntity> _domainService;
+		private readonly ITypeAdapter<TDomainEntity, TUiDto> _domainToUiDtoAdapter;
+		private readonly ILogger<TApplicationService> _logger;
 
 		protected ApplicationServiceBase(ILogger<TApplicationService> logger,
 			ITypeAdapter<TDomainEntity, TUiDto> domainToUiDtoAdapter,
 			ITypeAdapter<TBareDto, TDomainEntity> bareDtoToDomainAdapter,
 			IDomainService<TDomainEntity, TModelEntity> domainService)
 		{
-			Logger = logger;
-			BareDtoToDomainAdapter = bareDtoToDomainAdapter;
-			DomainToUiDtoAdapter = domainToUiDtoAdapter;
-			DomainService = domainService;
+			_logger = logger;
+			_bareDtoToDomainAdapter = bareDtoToDomainAdapter;
+			_domainToUiDtoAdapter = domainToUiDtoAdapter;
+			_domainService = domainService;
 		}
 
 		#region CRUD
@@ -50,15 +50,15 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 			try
 			{
 				// convert to a domain entity
-				TDomainEntity domainEntity = BareDtoToDomainAdapter.Adapt(dto);
+				TDomainEntity domainEntity = _bareDtoToDomainAdapter.Adapt(dto);
 
 				// add to database
-				Tuple<bool, TDomainEntity> addResult = DomainService.Add(domainEntity);
-				return addResult.Item1 ? DomainToUiDtoAdapter.Adapt(addResult.Item2) : null;
+				Tuple<bool, TDomainEntity> addResult = _domainService.Add(domainEntity);
+				return addResult.Item1 ? _domainToUiDtoAdapter.Adapt(addResult.Item2) : null;
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError(ex, Literals.p_ErrorAddingDtoOfTypeX.ParseParameter(typeof(TBareDto).Name));
+				_logger.LogError(ex, Literals.p_ErrorAddingDtoOfTypeX.ParseParameter(typeof(TBareDto).Name));
 				throw;
 			}
 		}
@@ -80,7 +80,7 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError(ex, Literals.p_ErrorAddingDtoListOfTypeX.ParseParameter(typeof(TBareDto).Name));
+				_logger.LogError(ex, Literals.p_ErrorAddingDtoListOfTypeX.ParseParameter(typeof(TBareDto).Name));
 				throw;
 			}
 		}
@@ -91,15 +91,15 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 			try
 			{
 				// Adapt dtos to domain entities
-				IList<TDomainEntity> domainEntities = BareDtoToDomainAdapter.Adapt(dtos).ToList();
+				IList<TDomainEntity> domainEntities = _bareDtoToDomainAdapter.Adapt(dtos).ToList();
 				// delete the entity matching from id in the database
-				IList<Tuple<bool, TDomainEntity>> results = DomainService.Delete(domainEntities);
+				IList<Tuple<bool, TDomainEntity>> results = _domainService.Delete(domainEntities);
 
-				return results.Select(r => DomainToUiDtoAdapter.Adapt(r.Item2)).ToList();
+				return results.Select(r => _domainToUiDtoAdapter.Adapt(r.Item2)).ToList();
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError(ex, Literals.p_ErrorDeletingDtoOfTypeX.ParseParameter(typeof(TBareDto).Name));
+				_logger.LogError(ex, Literals.p_ErrorDeletingDtoOfTypeX.ParseParameter(typeof(TBareDto).Name));
 				throw;
 			}
 		}
@@ -110,11 +110,11 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 			try
 			{
 				// delete the entity matching from id in the database
-				return DomainService.Delete(id);
+				return _domainService.Delete(id);
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError(ex, Literals.p_ErrorDeletingDtoOfTypeX.ParseParameter(typeof(TBareDto).Name));
+				_logger.LogError(ex, Literals.p_ErrorDeletingDtoOfTypeX.ParseParameter(typeof(TBareDto).Name));
 				throw;
 			}
 		}
@@ -125,17 +125,17 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 			try
 			{
 				// convert to a domain entity
-				TDomainEntity domainEntity = BareDtoToDomainAdapter.Adapt(dto);
+				TDomainEntity domainEntity = _bareDtoToDomainAdapter.Adapt(dto);
 
 				// edit in the database
-				Tuple<bool, TDomainEntity> editResult = DomainService.Edit(id, domainEntity);
+				Tuple<bool, TDomainEntity> editResult = _domainService.Edit(id, domainEntity);
 
-				return editResult.Item1 ? DomainToUiDtoAdapter.Adapt(editResult.Item2) : null;
+				return editResult.Item1 ? _domainToUiDtoAdapter.Adapt(editResult.Item2) : null;
 
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError(ex, Literals.p_ErrorEditingDtoOfTypeX.ParseParameter(typeof(TBareDto).Name));
+				_logger.LogError(ex, Literals.p_ErrorEditingDtoOfTypeX.ParseParameter(typeof(TBareDto).Name));
 				throw;
 			}
 		}
@@ -147,17 +147,17 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 			{
 				string[] navigationProperties = GetNavigationProperties(dtoType);
 				// get data
-				IEnumerable<TDomainEntity> domainEntities = DomainService.Get(predicate, navigationProperties).ToList();
+				IEnumerable<TDomainEntity> domainEntities = _domainService.Get(predicate, navigationProperties).ToList();
 
 				// convert to DTOs
-				IEnumerable<TUiDto> dtos = DomainToUiDtoAdapter.Adapt(domainEntities);
+				IEnumerable<TUiDto> dtos = _domainToUiDtoAdapter.Adapt(domainEntities);
 
 				// convert to DTO list and return
 				return dtos;
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError(ex, Literals.p_ErrorGettingDtoOfTypeX.ParseParameter(typeof(TUiDto).Name));
+				_logger.LogError(ex, Literals.p_ErrorGettingDtoOfTypeX.ParseParameter(typeof(TUiDto).Name));
 				throw;
 			}
 		}

@@ -64,7 +64,7 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
 		/// </summary>
 		/// <param name="entities">Entities to be added to the join table</param>
 		/// <returns>>True if operation persisted correctly</returns>
-		bool AddRelated<TRelatedEntity>(IList<TRelatedEntity> entities) where TRelatedEntity : class;
+		bool AddRelated<TRelatedEntity>(IList<TRelatedEntity> entities) where TRelatedEntity : class, IDomainEntity;
 
 		/// <summary>
 		/// Deletes related entities from the join table

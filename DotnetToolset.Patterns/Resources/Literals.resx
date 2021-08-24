@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="p_EntityNotValid" xml:space="preserve">
+    <value>The entity provided did not validate: {0}</value>
+  </data>
   <data name="p_ErrorAddingDtoListOfTypeX" xml:space="preserve">
     <value>An error has ocurred when adding a DTO list of type {0}</value>
   </data>
@@ -131,5 +134,29 @@
   </data>
   <data name="p_ErrorGettingDtoOfTypeX" xml:space="preserve">
     <value>An error has occurred when getting a DTO of type {0}</value>
+  </data>
+  <data name="p_RuleIsIntegerNotPassed" xml:space="preserve">
+    <value>Range rule did not pass since its value is not ant integer</value>
+  </data>
+  <data name="p_RuleIsNotNullNotPassed" xml:space="preserve">
+    <value>Not null rule did not pass since its value is null</value>
+  </data>
+  <data name="p_RuleLengthNotPassed" xml:space="preserve">
+    <value>Length rule did not pass for data "{0}" since its value is longer than {1}</value>
+  </data>
+  <data name="p_RuleMaxNotPassed" xml:space="preserve">
+    <value>Max rule did not pass for data "{0}" since its value is not lower or equal to {1}</value>
+  </data>
+  <data name="p_RuleMinNotPassed" xml:space="preserve">
+    <value>Min rule did not pass for data "{0}" since its value is not greater or equal to {1}</value>
+  </data>
+  <data name="p_RuleRangeNotPassed" xml:space="preserve">
+    <value>Range rule did not pass for data "{0}" since its value is not between {1} and {2}</value>
+  </data>
+  <data name="p_RuleRegexNotPassed" xml:space="preserve">
+    <value>RegEx rule did not pass for data "{0}" since does not match with the expression {1}</value>
+  </data>
+  <data name="p_RuleRegexSkipped" xml:space="preserve">
+    <value>RegEx rule was skkipped for data "{0}" as requested</value>
   </data>
 </root>

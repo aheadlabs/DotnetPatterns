@@ -1,4 +1,6 @@
-﻿namespace DotnetToolset.Patterns.Dddd.Interfaces
+﻿using Microsoft.Extensions.Logging;
+
+namespace DotnetToolset.Patterns.Dddd.Interfaces
 {
 	/// <summary>
 	/// This is generic entity interface.
@@ -10,6 +12,6 @@
 		/// Validates the domain entity from a business logic perspective
 		/// </summary>
 		/// <returns></returns>
-		public bool IsValid();
+		public bool IsValid(ILogger logger);
 	}
 }
