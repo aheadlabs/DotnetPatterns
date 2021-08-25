@@ -55,6 +55,7 @@ jobs:
           arguments: '-c Release -o $(System.DefaultWorkingDirectory)/.dist'
       - task: DotNetCoreCLI@2
         displayName: Pass unit tests
+        enabled: false
         inputs:
           command: 'test'
           projects: '**/*[Tt]ests/*.csproj'
