@@ -18,7 +18,7 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 	/// </summary>
 	public abstract class DomainServiceBase<TDomainService, TDomainEntity, TModelEntity, TContext>
 
-		where TDomainService : class, IDomainService<TDomainEntity, TModelEntity>
+		where TDomainService : class
 		where TDomainEntity : class, IDomainEntity
 		where TModelEntity : class
 		where TContext : DbContext
