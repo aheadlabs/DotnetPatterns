@@ -10,9 +10,10 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
 	/// </summary>
 	/// <typeparam name="TDomainEntity"></typeparam>
 	/// <typeparam name="TModelEntity"></typeparam>
-	public interface IDomainService<TDomainEntity, TModelEntity>
+	public interface IDomainService<TDomainEntity, TModelEntity, TRuleset>
 		where TDomainEntity : class, IDomainEntity
 		where TModelEntity : class
+		where TRuleset: class, IRuleset<TDomainEntity>
 
 	{
 		/// <summary>
@@ -58,6 +59,12 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
 		/// <param name="navigationProperties">Navigation properties used in this operation</param>
 		/// <returns>List of entities</returns>
 		IEnumerable<TDomainEntity> Get(Expression<Func<TModelEntity, bool>> predicate, string[] navigationProperties);
+
+		/// <summary>
+		/// Gets the validation rules for this entity
+		/// </summary>
+		/// <returns>Ruleset</returns>
+		public TRuleset GetValidationRules();
 
 		/// <summary>
 		/// Adds related entities to the join table

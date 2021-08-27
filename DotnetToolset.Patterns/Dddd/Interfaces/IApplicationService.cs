@@ -4,10 +4,13 @@ using System.Linq.Expressions;
 
 namespace DotnetToolset.Patterns.Dddd.Interfaces
 {
-	public interface IApplicationService<TModelEntity, TBareDto, TUiDto> 
+	public interface IApplicationService<TDomainEntity, TModelEntity, TBareDto, TUiDto, TRulesDto, TRuleset>
+        where TDomainEntity : class, IDomainEntity
         where TModelEntity : class
         where TBareDto : class, IDto
         where TUiDto : class, IDto
+        where TRulesDto: class, IDto
+		where TRuleset : class, IRuleset<TDomainEntity>
     {
         /// <summary>
         /// Adds the entity DTO to the persistence infrastructure layer
@@ -54,11 +57,16 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
         IEnumerable<TUiDto> Get(Expression<Func<TModelEntity, bool>> predicate, Type dtoType);
 
         /// <summary>
+        /// Gets the validation rules for this controller
+        /// </summary>
+        /// <returns>List of validation rules</returns>
+        TRulesDto GetValidationRules();
+
+        /// <summary>
         /// Gets the navigation properties array for the specified DTO type
         /// </summary>
         /// <param name="dtoType">DTO type for getting the navigation properties</param>
         /// <returns>String array of navigation properties</returns>
         string[] GetNavigationProperties(Type dtoType);
-
     }
 }

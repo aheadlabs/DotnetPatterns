@@ -12,6 +12,6 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
 		/// Rule key-value pair
 		/// </summary>
 		/// <returns></returns>
-		public KeyValuePair<RuleType, object> Rule { get; set; }
+		public KeyValuePair<string, string> Rule { get; set; }
 	}
 }

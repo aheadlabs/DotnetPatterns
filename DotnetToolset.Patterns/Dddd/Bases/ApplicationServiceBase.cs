@@ -19,32 +19,36 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 	/// <typeparam name="TModelEntity"></typeparam>
 	/// <typeparam name="TBareDto"></typeparam>
 	/// <typeparam name="TUiDto"></typeparam>
-	public abstract class ApplicationServiceBase<TApplicationService, TDomainEntity, TModelEntity, TBareDto, TUiDto>
-		where TApplicationService : class
+	public abstract class ApplicationServiceBase<TApplicationService, TDomainEntity, TModelEntity, TBareDto, TUiDto, TRulesDto, TRuleset>
+		where TApplicationService: class, IApplicationService<TDomainEntity, TModelEntity, TBareDto, TUiDto, TRulesDto, TRuleset>
 		where TDomainEntity : class, IDomainEntity
 		where TModelEntity : class
 		where TBareDto : class, IDto
 		where TUiDto : class, IDto
+		where TRulesDto: class, IDto
+		where TRuleset: class, IRuleset<TDomainEntity>
 	{
 		private readonly ITypeAdapter<TBareDto, TDomainEntity> _bareDtoToDomainAdapter;
-		private readonly IDomainService<TDomainEntity, TModelEntity> _domainService;
+		private readonly IDomainService<TDomainEntity, TModelEntity, TRuleset> _domainService;
 		private readonly ITypeAdapter<TDomainEntity, TUiDto> _domainToUiDtoAdapter;
+		private readonly ITypeAdapter<TRuleset, TRulesDto> _rulesToDtoAdapter;
 		private readonly ILogger<TApplicationService> _logger;
 
 		protected ApplicationServiceBase(ILogger<TApplicationService> logger,
 			ITypeAdapter<TDomainEntity, TUiDto> domainToUiDtoAdapter,
 			ITypeAdapter<TBareDto, TDomainEntity> bareDtoToDomainAdapter,
-			IDomainService<TDomainEntity, TModelEntity> domainService)
+			ITypeAdapter<TRuleset, TRulesDto> rulesToDtoAdapter,
+			IDomainService<TDomainEntity, TModelEntity, TRuleset> domainService)
 		{
 			_logger = logger;
 			_bareDtoToDomainAdapter = bareDtoToDomainAdapter;
+			_rulesToDtoAdapter = rulesToDtoAdapter;
 			_domainToUiDtoAdapter = domainToUiDtoAdapter;
 			_domainService = domainService;
 		}
 
 		#region CRUD
-
-		///<inheritdoc cref="IApplicationService{TModelEntity,TBareDto,TUiDto}"/>
+		
 		public virtual TUiDto Add(TBareDto dto)
 		{
 			try
@@ -62,8 +66,7 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 				throw;
 			}
 		}
-
-		///<inheritdoc cref="IApplicationService{TModelEntity,TBareDto,TUiDto}"/>
+		
 		public virtual IList<TUiDto> Add(IList<TBareDto> dtos)
 		{
 			try
@@ -84,8 +87,7 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 				throw;
 			}
 		}
-
-		///<inheritdoc cref="IApplicationService{TModelEntity,TBareDto,TUiDto}"/>
+		
 		public virtual IList<TUiDto> Delete(IList<TBareDto> dtos)
 		{
 			try
@@ -103,8 +105,7 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 				throw;
 			}
 		}
-
-		///<inheritdoc cref="IApplicationService{TModelEntity,TBareDto,TUiDto}"/>
+		
 		public virtual int Delete(int id)
 		{
 			try
@@ -118,8 +119,7 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 				throw;
 			}
 		}
-
-		///<inheritdoc cref="IApplicationService{TModelEntity,TBareDto,TUiDto}"/>
+		
 		public virtual TUiDto Edit(int id, TBareDto dto)
 		{
 			try
@@ -139,8 +139,7 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 				throw;
 			}
 		}
-
-		///<inheritdoc cref="IApplicationService{TModelEntity,TBareDto,TUiDto}"/>
+		
 		public virtual IEnumerable<TUiDto> Get(Expression<Func<TModelEntity, bool>> predicate, Type dtoType)
 		{
 			try
@@ -164,7 +163,20 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 
 		#endregion CRUD
 
-		///<inheritdoc cref="IApplicationService{TModelEntity,TBareDto,TUiDto}"/>
+		public virtual TRulesDto GetValidationRules()
+		{
+			try
+			{
+				TRuleset ruleset = _domainService.GetValidationRules();
+				return _rulesToDtoAdapter.Adapt(ruleset);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, Literals.p_ErrorGettingValidationRules.ParseParameter(typeof(TDomainEntity).Name));
+				throw;
+			}
+		}
+		
 		public abstract string[] GetNavigationProperties(Type dtoType);
 	}
 }

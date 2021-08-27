@@ -16,7 +16,7 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 	/// This is the supertype for all services in this domain layer (layer supertype pattern).
 	/// Common features to all service types in the layer go here.
 	/// </summary>
-	public abstract class DomainServiceBase<TDomainService, TDomainEntity, TModelEntity, TContext>
+	public abstract class DomainServiceBase<TDomainService, TDomainEntity, TModelEntity, TContext, TRuleset>
 
 		where TDomainService : class
 		where TDomainEntity : class, IDomainEntity
@@ -206,6 +206,12 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 		}
 
 		#endregion CRUD
+
+		public virtual TRuleset GetValidationRules()
+		{
+			TDomainEntity domainEntity = Activator.CreateInstance<TDomainEntity>();
+			return (TRuleset)Activator.CreateInstance(typeof(TRuleset), new object[] {domainEntity});
+		}
 
 		#region CRUD to related entities
 

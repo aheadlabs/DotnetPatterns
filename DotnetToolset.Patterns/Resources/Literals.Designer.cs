@@ -115,6 +115,15 @@ namespace DotnetToolset.Patterns.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error has occurred when getting the validation rules for {0}.
+        /// </summary>
+        internal static string p_ErrorGettingValidationRules {
+            get {
+                return ResourceManager.GetString("p_ErrorGettingValidationRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Range rule did not pass since its value is not ant integer.
         /// </summary>
         internal static string p_RuleIsIntegerNotPassed {
