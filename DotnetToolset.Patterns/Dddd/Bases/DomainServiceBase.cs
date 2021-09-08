@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace DotnetToolset.Patterns.Dddd.Bases
@@ -212,61 +211,5 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 			TDomainEntity domainEntity = Activator.CreateInstance<TDomainEntity>();
 			return (TRuleset)Activator.CreateInstance(typeof(TRuleset), new object[] {domainEntity});
 		}
-
-		#region CRUD to related entities
-
-		/// <summary>
-		/// Adds related entities to the join table
-		/// </summary>
-		/// <param name="entities">Entities to be added to the join table</param>
-		/// <returns>>True if operation persisted correctly</returns>
-		public bool AddRelated<TRelatedEntity>(IList<TRelatedEntity> entities)
-			where TRelatedEntity : class, IDomainEntity
-		{
-
-			IList<Tuple<bool, TRelatedEntity>> results = new List<Tuple<bool, TRelatedEntity>>();
-
-			ICrudService<TDomainService, TRelatedEntity, TContext> crudServiceRelated = new CrudService<TDomainService, TRelatedEntity, TContext>(_context, _logger);
-
-			foreach (TRelatedEntity entity in entities)
-			{
-				// Validate entity
-				if (!entity.IsValid(_logger))
-				{
-					throw new ArgumentException(Literals.p_EntityNotValid.ParseParameter(entity.GetType().ToString()), nameof(entities));
-				}
-
-				Tuple<bool, TRelatedEntity> result = crudServiceRelated.Add(entity);
-				results.Add(result);
-			}
-
-			// Returning true if all results of internal operations are true
-			return results.All(r => r.Item1);
-		}
-
-		/// <summary>
-		/// Deletes related entities from the join table
-		/// </summary>
-		/// <param name="entities">Entities to be deleted to the join table</param>
-		/// <returns>>True if operation persisted correctly</returns>
-		public bool DeleteRelated<TRelatedEntity>(IList<TRelatedEntity> entities)
-			where TRelatedEntity : class
-		{
-
-			IList<Tuple<bool, TRelatedEntity>> results = new List<Tuple<bool, TRelatedEntity>>();
-
-			ICrudService<TDomainService, TRelatedEntity, TContext> crudServiceRelated = new CrudService<TDomainService, TRelatedEntity, TContext>(_context, _logger);
-
-			foreach (TRelatedEntity entity in entities)
-			{
-				Tuple<bool, TRelatedEntity> result = crudServiceRelated.Delete(entity);
-				results.Add(result);
-			}
-
-			// Returning true if all results of internal operations are true
-			return results.All(r => r.Item1);
-		}
-
-		#endregion CRUD to related entities
 	}
 }
