@@ -65,19 +65,5 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
 		/// </summary>
 		/// <returns>Ruleset</returns>
 		public TRuleset GetValidationRules();
-
-		/// <summary>
-		/// Adds related entities to the join table
-		/// </summary>
-		/// <param name="entities">Entities to be added to the join table</param>
-		/// <returns>>True if operation persisted correctly</returns>
-		bool AddRelated<TRelatedEntity>(IList<TRelatedEntity> entities) where TRelatedEntity : class, IDomainEntity;
-
-		/// <summary>
-		/// Deletes related entities from the join table
-		/// </summary>
-		/// <param name="entities">Entities to be deleted to the join table</param>
-		/// <returns>>True if operation persisted correctly</returns>
-		bool DeleteRelated<TRelatedEntity>(IList<TRelatedEntity> entities) where TRelatedEntity : class;
 	}
 }
