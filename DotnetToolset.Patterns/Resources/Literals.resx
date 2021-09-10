@@ -138,6 +138,9 @@
   <data name="p_ErrorGettingValidationRules" xml:space="preserve">
     <value>An error has occurred when getting the validation rules for {0}</value>
   </data>
+  <data name="p_RuleCurrencyNotPassed" xml:space="preserve">
+    <value>Currency rule did not pass for data "{0}" since it is either negative or not castable to decimal</value>
+  </data>
   <data name="p_RuleIsIntegerNotPassed" xml:space="preserve">
     <value>Range rule did not pass since its value is not ant integer</value>
   </data>

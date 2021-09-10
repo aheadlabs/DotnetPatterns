@@ -124,6 +124,15 @@ namespace DotnetToolset.Patterns.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Currency rule did not pass for data &quot;{0}&quot; since it is either negative or not castable to decimal.
+        /// </summary>
+        internal static string p_RuleCurrencyNotPassed {
+            get {
+                return ResourceManager.GetString("p_RuleCurrencyNotPassed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Range rule did not pass since its value is not ant integer.
         /// </summary>
         internal static string p_RuleIsIntegerNotPassed {

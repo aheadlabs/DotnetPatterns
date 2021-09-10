@@ -6,6 +6,11 @@
 	public enum RuleType
 	{
 		/// <summary>
+		/// Filed must be a currency
+		/// </summary>
+		Currency,
+
+		/// <summary>
 		/// Field length
 		/// </summary>
 		Length,

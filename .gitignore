@@ -4,3 +4,6 @@
 # Generated
 [Bb]in/
 [Oo]bj/
+
+# User
+*.user
