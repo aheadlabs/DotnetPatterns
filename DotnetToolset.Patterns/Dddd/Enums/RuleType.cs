@@ -11,9 +11,14 @@
 		Currency,
 
 		/// <summary>
-		/// Field length
+		/// Field max length
 		/// </summary>
-		Length,
+		MaxLength,
+
+        /// <summary>
+        /// Field min length
+        /// </summary>
+        MinLength,
 
 		/// <summary>
 		/// Field with a minimum value
