@@ -5,7 +5,6 @@ using DotnetToolset.Patterns.Dddd.Enums;
 namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 {
     /// <inheritdoc />
-    /// <inheritdoc />
     public class LowerThanSubjectRule : IRule
     {
         private readonly bool _skipWhenEmpty;
@@ -17,7 +16,7 @@ namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
         /// <param name="skipWhenEmpty">If true, regular expression is not evaluated when the value is an empty string.</param>
         public LowerThanSubjectRule(string subjectName, bool skipWhenEmpty = false)
         {
-            Rule = new KeyValuePair<RuleType, object>(RuleType.Regex, subjectName);
+            Rule = new KeyValuePair<RuleType, object>(RuleType.LowerThanSubject, subjectName);
             _skipWhenEmpty = skipWhenEmpty;
         }
 

@@ -16,7 +16,7 @@ namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 		/// <param name="skipWhenEmpty">If true, regular expression is not evaluated when the value is an empty string.</param>
 		public GreaterThanSubjectRule(string subjectName, bool skipWhenEmpty = false)
 		{
-			Rule = new KeyValuePair<RuleType, object>(RuleType.Regex, subjectName);
+			Rule = new KeyValuePair<RuleType, object>(RuleType.GreaterThanSubject, subjectName);
 			_skipWhenEmpty = skipWhenEmpty;
 		}
 
