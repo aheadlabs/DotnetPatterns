@@ -6,11 +6,21 @@
 	public enum RuleType
 	{
 		/// <summary>
-		/// Filed must be a currency
+		/// Field must be a currency
 		/// </summary>
 		Currency,
 
-		/// <summary>
+        /// <summary>
+        /// Field must be greater than other specified subject's value
+        /// </summary>
+        GreaterThanSubject,
+
+        /// <summary>
+        /// Field must be lower than other specified subject's value
+        /// </summary>
+        LowerThanSubject,
+
+        /// <summary>
 		/// Field max length
 		/// </summary>
 		MaxLength,
