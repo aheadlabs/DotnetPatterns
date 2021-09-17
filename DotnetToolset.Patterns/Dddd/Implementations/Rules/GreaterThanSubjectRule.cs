@@ -1,5 +1,6 @@
 ﻿using DotnetToolset.Patterns.Dddd.Interfaces;
 using System.Collections.Generic;
+using DotnetToolset.Patterns.Dddd.Enums;
 
 namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 {

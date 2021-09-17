@@ -1,8 +1,8 @@
 ﻿using DotnetToolset.ExtensionMethods;
 using DotnetToolset.Patterns.Dddd.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using DotnetToolset.Patterns.Dddd.Enums;
 using Res = DotnetToolset.Patterns.Resources.Literals;
 
 namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
@@ -43,12 +43,12 @@ namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 				return (true, Res.p_RuleRegexSkipped.ParseParameter(value.ToString()));
 			}
 
-			if (!String.IsNullOrEmpty((string)value) && match.Success)
+			if (!string.IsNullOrEmpty((string)value) && match.Success)
 			{
 				return (true, null);
 			}
 
-			return (false, Res.p_RuleRegexNotPassed.ParseParameters(new[] { value?.ToString(), Rule.Value }));
+			return (false, Res.p_RuleRegexNotPassed.ParseParameters(new[] { value.ToString(), Rule.Value }));
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using DotnetToolset.Patterns.Dddd.Interfaces;
 using System.Collections.Generic;
+using DotnetToolset.Patterns.Dddd.Enums;
 using Res = DotnetToolset.Patterns.Resources.Literals;
 
 namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
@@ -27,7 +28,7 @@ namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 		/// <returns>True if rule passed and an optional error message</returns>
 		public (bool isValid, string errorMessage) Validate(object value)
 		{
-			if (value != null && int.TryParse(value.ToString(), out int parsedValue))
+			if (value != null && int.TryParse(value.ToString(), out _))
 			{
 				return (true, null);
 			}

@@ -1,6 +1,7 @@
 ﻿using DotnetToolset.ExtensionMethods;
 using DotnetToolset.Patterns.Dddd.Interfaces;
 using System.Collections.Generic;
+using DotnetToolset.Patterns.Dddd.Enums;
 using Res = DotnetToolset.Patterns.Resources.Literals;
 
 namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
@@ -11,8 +12,7 @@ namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 		/// <summary>
 		/// Constructor to set the rule value
 		/// </summary>
-		/// <param name="amount"></param>
-		public CurrencyRule()
+        public CurrencyRule()
 		{
 			Rule = new KeyValuePair<RuleType, object>(RuleType.Currency, null);
 		}
@@ -28,13 +28,15 @@ namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 		/// <param name="value">Data to be validated</param>
 		/// <returns>True if rule passed and an optional error message</returns>
 		public (bool isValid, string errorMessage) Validate(object value)
-		{
-			if (value != null && (decimal)value >= 0)
+        {
+            if (value != null && (decimal)value >= 0)
 			{
 				return (true, null);
 			}
 
-			return (false, Res.p_RuleCurrencyNotPassed.ParseParameters(new object[] { value?.ToString(), (decimal)value }));
-		}
+            if (value != null)
+                return (false,
+                    Res.p_RuleCurrencyNotPassed.ParseParameters(new object[] { value?.ToString(), (decimal)value }));
+        }
 	}
 }

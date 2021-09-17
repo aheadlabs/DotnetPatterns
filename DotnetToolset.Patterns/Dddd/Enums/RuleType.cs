@@ -1,4 +1,4 @@
-﻿namespace DotnetToolset.Patterns.Dddd.Interfaces
+﻿namespace DotnetToolset.Patterns.Dddd.Enums
 {
 	/// <summary>
 	/// Types of rules

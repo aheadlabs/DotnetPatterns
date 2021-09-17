@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using DotnetToolset.Patterns.Dddd.Enums;
 
 namespace DotnetToolset.Patterns.Dddd.Interfaces
 {
