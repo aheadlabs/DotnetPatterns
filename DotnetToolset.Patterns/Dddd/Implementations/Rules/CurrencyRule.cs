@@ -28,15 +28,13 @@ namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 		/// <param name="value">Data to be validated</param>
 		/// <returns>True if rule passed and an optional error message</returns>
 		public (bool isValid, string errorMessage) Validate(object value)
-        {
-            if (value != null && (decimal)value >= 0)
+		{
+			if (value != null && (decimal)value >= 0)
 			{
 				return (true, null);
 			}
 
-            if (value != null)
-                return (false,
-                    Res.p_RuleCurrencyNotPassed.ParseParameters(new object[] { value?.ToString(), (decimal)value }));
-        }
+			return (false, Res.p_RuleCurrencyNotPassed.ParseParameters(new object[] { value?.ToString(), (decimal)value }));
+		}
 	}
 }
