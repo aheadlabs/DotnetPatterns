@@ -68,7 +68,7 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
                     .Select(r => r.Rule.Value).FirstOrDefault();
 
                 // Subject may not exist in domain layer. If so, we must skip the validation
-                if (properties.Any(p => p.Name == rulesetSubject.Name))
+                if (properties.All(p => p.Name != rulesetSubject.Name))
                 {
                     continue;
                 }
