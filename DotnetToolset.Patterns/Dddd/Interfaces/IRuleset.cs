@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -68,6 +67,12 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
                         RuleType.GreaterThanSubject || r.Rule.Key == RuleType.LowerThanSubject)
                     .Select(r => r.Rule.Value).FirstOrDefault();
 
+                // Subject may not exist in domain layer. If so, we must skip the validation
+                if (properties.Any(p => p.Name == rulesetSubject.Name))
+                {
+                    continue;
+                }
+
                 object valueToValidate = properties.Single(p => p.Name == rulesetSubject.Name).GetValue(Instance);
 
                 // If rule involves antoher subject, the value to validate will change
@@ -86,19 +91,18 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
                 // Add validation result to the list as valid or invalid
                 subjects.Add((rulesetSubject.Name, subjectValidation.isValid, subjectValidation.subjectValidRules, subjectValidation.subjectInvalidRules));
 
-                if (!subjectValidation.isValid)
+                if (subjectValidation.isValid) continue;
+
+                result = false;
+
+                // Log errors
+                foreach ((KeyValuePair<RuleType, object> rule, bool result, string errorMessage) rule in subjectValidation.subjectInvalidRules)
                 {
-                    result = false;
-
-                    // Log errors
-                    foreach ((KeyValuePair<RuleType, object> rule, bool result, string errorMessage) rule in subjectValidation.subjectInvalidRules)
-                    {
-                        logger.LogError(rule.errorMessage);
-                    }
-
-                    // Break after first subject with validation errors
-                    break;
+                    logger.LogError(rule.errorMessage);
                 }
+
+                // Break after first subject with validation errors
+                break;
             }
 
             return (result, subjects);
