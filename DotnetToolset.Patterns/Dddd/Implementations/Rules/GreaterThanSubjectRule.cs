@@ -1,6 +1,8 @@
-﻿using DotnetToolset.Patterns.Dddd.Interfaces;
+﻿using System;
+using DotnetToolset.Patterns.Dddd.Interfaces;
 using System.Collections.Generic;
 using DotnetToolset.Patterns.Dddd.Enums;
+using Res = DotnetToolset.Patterns.Resources.Literals;
 
 namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 {
@@ -32,8 +34,25 @@ namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 		/// <returns>True if rule passed and an optional error message</returns>
 		public (bool isValid, string errorMessage) Validate(object value)
         {
-			// Here, the value must be the subject value to be comparated with.
-            MinRule minRule = new MinRule((int)value);
+            int castedValue;
+
+            if (value == null)
+            {
+                return (true, Res.b_TargetSubjectNotPresent);
+            }
+
+            // Here, the value must be the subject value to be comparated with.
+            if (value.GetType().Name.Contains("Single"))
+            {
+                float floatValue = (float)value;
+                castedValue = Convert.ToInt32(floatValue);
+            }
+            else
+            {
+                castedValue = (int)value;
+            }
+
+            MinRule minRule = new MinRule(castedValue);
             return minRule.Validate(value);
         }
 	}

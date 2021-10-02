@@ -28,7 +28,12 @@ namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 		/// <returns>True if rule passed and an optional error message</returns>
 		public (bool isValid, string errorMessage) Validate(object value)
 		{
-			if (value != null && int.TryParse(value.ToString(), out _))
+            if (value == null)
+            {
+                return (true, Res.b_NoValueToValidate);
+            }
+
+			if (int.TryParse(value.ToString(), out _))
 			{
 				return (true, null);
 			}

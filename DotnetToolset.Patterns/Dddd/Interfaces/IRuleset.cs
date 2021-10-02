@@ -67,6 +67,8 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
                         RuleType.GreaterThanSubject || r.Rule.Key == RuleType.LowerThanSubject)
                     .Select(r => r.Rule.Value).FirstOrDefault();
 
+                object relatedSubjectValueToValidate = null;
+
                 // Subject may not exist in domain layer. If so, we must skip the validation
                 if (properties.All(p => p.Name != rulesetSubject.Name))
                 {
@@ -78,7 +80,7 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
                 // If rule involves antoher subject, the value to validate will change
                 if (relatedSubjectName != null)
                 {
-                    valueToValidate =
+                    relatedSubjectValueToValidate =
                         properties.Single(p => p.Name == (string)relatedSubjectName).GetValue(Instance);
                 }
 
@@ -86,7 +88,7 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
                 bool isValid,
                 IEnumerable<(KeyValuePair<RuleType, object> rule, bool result, string errorMessage)> subjectValidRules,
                 IEnumerable<(KeyValuePair<RuleType, object> rule, bool result, string errorMessage)> subjectInvalidRules
-                ) subjectValidation = rulesetSubject.Validate(valueToValidate);
+                ) subjectValidation = rulesetSubject.Validate(valueToValidate, relatedSubjectValueToValidate);
 
                 // Add validation result to the list as valid or invalid
                 subjects.Add((rulesetSubject.Name, subjectValidation.isValid, subjectValidation.subjectValidRules, subjectValidation.subjectInvalidRules));

@@ -61,6 +61,24 @@ namespace DotnetToolset.Patterns.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rule is skipped because no value to validate..
+        /// </summary>
+        internal static string b_NoValueToValidate {
+            get {
+                return ResourceManager.GetString("b_NoValueToValidate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Related subjet rule is skipped because not related subject is present..
+        /// </summary>
+        internal static string b_TargetSubjectNotPresent {
+            get {
+                return ResourceManager.GetString("b_TargetSubjectNotPresent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The entity provided did not validate: {0}.
         /// </summary>
         internal static string p_EntityNotValid {
@@ -133,7 +151,7 @@ namespace DotnetToolset.Patterns.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Range rule did not pass since its value is not ant integer.
+        ///   Looks up a localized string similar to Integer rule did not pass since its value is not ant integer.
         /// </summary>
         internal static string p_RuleIsIntegerNotPassed {
             get {
