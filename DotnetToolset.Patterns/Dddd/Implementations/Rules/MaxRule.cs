@@ -30,7 +30,24 @@ namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 		/// <returns>True if rule passed and an optional error message</returns>
 		public (bool isValid, string errorMessage) Validate(object value)
 		{
-			if (value != null && (int)value <= (int)Rule.Value)
+            var castedValue = 0.0;
+
+            if (value == null)
+            {
+                return (true, Res.b_NoValueToValidate);
+            }
+
+            // Value can be float depending of subyacent type, so we must treat it apart.
+            if (value.GetType().Name.Contains("Single"))
+            {
+                castedValue = (float)value;
+            }
+            else
+            {
+                castedValue = (int)value;
+            }
+
+			if (castedValue <= (int)Rule.Value)
 			{
 				return (true, null);
 			}

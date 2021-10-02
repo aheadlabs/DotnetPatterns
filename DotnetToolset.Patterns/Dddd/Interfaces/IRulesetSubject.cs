@@ -38,7 +38,7 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
 			bool isValid,
 			IEnumerable<(KeyValuePair<RuleType, object>, bool, string)> validRules,
 			IEnumerable<(KeyValuePair<RuleType, object>, bool, string)> invalidRules
-			) Validate(object value)
+			) Validate(object value, object relatedValue = null)
 		{
 			bool result = true;
 			List<(KeyValuePair<RuleType, object> rule, bool result, string errorMessage)> validRules =
@@ -49,7 +49,7 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
 			// Validate each rule for this subject
 			foreach (IRule rule in GetRules())
 			{
-				(bool isValid, string errorMessage) validation = rule.Validate(value);
+				(bool isValid, string errorMessage) validation = rule.Rule.Key == RuleType.LowerThanSubject || rule.Rule.Key == RuleType.GreaterThanSubject ? rule.Validate(relatedValue) : rule.Validate(value);
 
 				// Add validation result to the list as valid or invalid
 				if (validation.isValid)

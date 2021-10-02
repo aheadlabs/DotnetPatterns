@@ -35,15 +35,15 @@ namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 		/// <returns>True if rule passed and an optional error message</returns>
 		public (bool isValid, string errorMessage) Validate(object value)
 		{
+            if (_skipWhenEmpty &&  string.IsNullOrEmpty((string)value))
+            {
+                return (true, Res.p_RuleRegexSkipped.ParseParameter("null"));
+            }
+
 			Regex regex = new Regex((string)Rule.Value);
 			Match match = regex.Match((string)value);
 
-			if (_skipWhenEmpty && (string)value == string.Empty)
-			{
-				return (true, Res.p_RuleRegexSkipped.ParseParameter(value.ToString()));
-			}
-
-			if (!string.IsNullOrEmpty((string)value) && match.Success)
+            if (match.Success)
 			{
 				return (true, null);
 			}

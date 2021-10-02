@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="b_NoValueToValidate" xml:space="preserve">
+    <value>Rule is skipped because no value to validate.</value>
+  </data>
+  <data name="b_TargetSubjectNotPresent" xml:space="preserve">
+    <value>Related subjet rule is skipped because not related subject is present.</value>
+  </data>
   <data name="p_EntityNotValid" xml:space="preserve">
     <value>The entity provided did not validate: {0}</value>
   </data>
@@ -142,7 +148,7 @@
     <value>Currency rule did not pass for data "{0}" since it is either negative or not castable to decimal</value>
   </data>
   <data name="p_RuleIsIntegerNotPassed" xml:space="preserve">
-    <value>Range rule did not pass since its value is not ant integer</value>
+    <value>Integer rule did not pass since its value is not ant integer</value>
   </data>
   <data name="p_RuleIsNotNullNotPassed" xml:space="preserve">
     <value>Not null rule did not pass since its value is null</value>
