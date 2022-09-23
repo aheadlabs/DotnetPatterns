@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DotnetToolset.Patterns.Dddd.Implementations;
 
 namespace DotnetToolset.Patterns.Dddd.Interfaces
 {
@@ -17,6 +18,6 @@ namespace DotnetToolset.Patterns.Dddd.Interfaces
 		/// <summary>
 		/// Rules for this ruleset subject
 		/// </summary>
-		public List<IRuleDto> Rules { get; set; }
+		public List<RuleDto> Rules { get; set; }
 	}
 }

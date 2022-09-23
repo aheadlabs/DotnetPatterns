@@ -169,6 +169,6 @@
     <value>RegEx rule did not pass for data "{0}" since does not match with the expression {1}</value>
   </data>
   <data name="p_RuleRegexSkipped" xml:space="preserve">
-    <value>RegEx rule was skkipped for data "{0}" as requested</value>
+    <value>RegEx rule was skipped for data "{0}" as requested</value>
   </data>
 </root>
