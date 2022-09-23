@@ -41,12 +41,12 @@
 		Max,
 
 		/// <summary>
-		/// Filed must be an integer
+		/// Field must be an integer
 		/// </summary>
 		IsInteger,
 
 		/// <summary>
-		/// Filed must not be null
+		/// Field must not be null
 		/// </summary>
 		IsNotNull,
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DotnetToolset.Patterns.Dddd.Enums;
 using Res = DotnetToolset.Patterns.Resources.Literals;
+using DotnetToolset.ExtensionMethods;
 
 namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 {
@@ -38,7 +39,7 @@ namespace DotnetToolset.Patterns.Dddd.Implementations.Rules
 				return (true, null);
 			}
 
-			return (false, Res.p_RuleIsIntegerNotPassed);
+			return (false, Res.p_RuleIsIntegerNotPassed.ParseParameters(new[] { value.ToString(), Rule.Value }));
 		}
 	}
 }

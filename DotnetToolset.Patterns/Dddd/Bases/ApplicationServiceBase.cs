@@ -19,6 +19,8 @@ namespace DotnetToolset.Patterns.Dddd.Bases
 	/// <typeparam name="TModelEntity"></typeparam>
 	/// <typeparam name="TBareDto"></typeparam>
 	/// <typeparam name="TUiDto"></typeparam>
+	/// <typeparam name="TRulesDto"></typeparam>
+	/// <typeparam name="TRuleset"></typeparam>
 	public abstract class ApplicationServiceBase<TApplicationService, TDomainEntity, TModelEntity, TBareDto, TUiDto, TRulesDto, TRuleset>
 		where TApplicationService: class, IApplicationService<TDomainEntity, TModelEntity, TBareDto, TUiDto, TRulesDto, TRuleset>
 		where TDomainEntity : class, IDomainEntity
